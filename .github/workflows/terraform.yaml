@@ -1,0 +1,50 @@
+
+name: Terraform
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'infra/terraform/**'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: self-hosted
+    env:
+      AWS_DEFAULT_REGION: ap-southeast-1 # For Terraform AWS provider
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4.1.0
+      with:
+        aws-region: ap-southeast-1
+        role-to-assume: arn:aws:iam::955059924186:role/terraform-admin-role
+        role-session-name: terraform-session-${{ github.run_id }}
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.0.11
+
+    - name: Terraform Init
+      working-directory: ./infrastructure/terraform/application
+      run: terraform init
+
+    - name: Terraform Plan
+      working-directory: ./infrastructure/terraform/application
+      run: terraform plan
+        
+    - name: Terraform Apply
+      if: github.event_name != 'pull_request'
+      working-directory: ./infrastructure/terraform/application
+      run: terraform apply -auto-approve
