@@ -4,7 +4,7 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "subnet_1" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = cidrsubnet(var.vpc_cidr_block, 8, 0)
+  cidr_block = cidrsubnet(var.vpc_cidr_block, 8, 1)
 
   tags = {
     Name = "subnet_1"
