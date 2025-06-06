@@ -2,33 +2,33 @@ resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr_block
 }
 
-resource "aws_subnet" "subnet_1" {
+resource "aws_subnet" "subnet_a" {
   vpc_id     = aws_vpc.main.id
   cidr_block = cidrsubnet(var.vpc_cidr_block, 8, 1)
   availability_zone = "ap-southeast-1a"
 
   tags = {
-    Name = "subnet_1"
+    Name = "subnet_a"
   }
 }
 
-resource "aws_subnet" "subnet_2" {
+resource "aws_subnet" "subnet_b" {
   vpc_id     = aws_vpc.main.id
   cidr_block = cidrsubnet(var.vpc_cidr_block, 8, 2)
   availability_zone = "ap-southeast-1b"
 
   tags = {
-    Name = "subnet_2"
+    Name = "subnet_b"
   }
 }
 
-resource "aws_subnet" "subnet_3" {
+resource "aws_subnet" "subnet_c" {
   vpc_id     = aws_vpc.main.id
   cidr_block = cidrsubnet(var.vpc_cidr_block, 8, 3)
   availability_zone = "ap-southeast-1c"
 
   tags = {
-    Name = "subnet_3"
+    Name = "subnet_c"
   }
 }
 
@@ -51,4 +51,19 @@ resource "aws_route_table" "feedme-sre-rt" {
   tags = {
     Name = "rt-feedme-sre"
   }
+}
+
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.subnet_a.id
+  route_table_id = aws_route_table.feedme-sre-rt.id
+}
+
+resource "aws_route_table_association" "b" {
+  subnet_id      = aws_subnet.subnet_b.id
+  route_table_id = aws_route_table.feedme-sre-rt.id
+}
+
+resource "aws_route_table_association" "c" {
+  subnet_id      = aws_subnet.subnet_c.id
+  route_table_id = aws_route_table.feedme-sre-rt.id
 }
