@@ -1,5 +1,5 @@
 
-name: Terraform
+name: Terraform homelab
 
 on:
   push:
