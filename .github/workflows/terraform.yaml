@@ -37,14 +37,14 @@ jobs:
         terraform_version: 1.0.11
 
     - name: Terraform Init
-      working-directory: ./infrastructure/terraform/application
+      working-directory: ./infra/terraform/homelab
       run: terraform init
 
     - name: Terraform Plan
-      working-directory: ./infrastructure/terraform/application
+      working-directory: ./infra/terraform/homelab
       run: terraform plan
         
     - name: Terraform Apply
       if: github.event_name != 'pull_request'
-      working-directory: ./infrastructure/terraform/application
+      working-directory: ./infra/terraform/homelab
       run: terraform apply -auto-approve
