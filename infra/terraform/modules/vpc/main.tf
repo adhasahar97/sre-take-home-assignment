@@ -31,3 +31,25 @@ resource "aws_subnet" "subnet_3" {
     Name = "subnet_3"
   }
 }
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "igw-feedme-sre"
+  }
+}
+
+resource "aws_route_table" "feedme-sre-rt" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "10.0.0.0/16"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+
+  tags = {
+    Name = "rt-feedme-sre"
+  }
+}
