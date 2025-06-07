@@ -27,17 +27,17 @@ async function main() {
 
   app.use(cors());
 
-  app.get("/api/orders", async (req, res) => {
+  app.get("/orders", async (req, res) => {
     const orders = await orderCollection.find({}).toArray();
     res.send(orders);
   });
 
-  app.delete("/api/orders/:id", async (req, res) => {
+  app.delete("/orders/:id", async (req, res) => {
     await orderCollection.deleteOne({ _id: Number(req.params.id) });
     res.send("ok");
   });
 
-  app.post("/api/orders", async (req, res) => {
+  app.post("/orders", async (req, res) => {
     const orderSeq = await counterCollection.findOne({ _id: "orderSeq" });
     await orderCollection.insertOne({
       _id: orderSeq.seq++,
