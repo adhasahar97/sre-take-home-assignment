@@ -7,7 +7,7 @@ locals {
       namespace  = "argocd"
       version    = "8.0.12"
       values     = {
-
+        "hostname" = var.cloudflare_domain
       }
     },
     "cloudflare-tunnel" = {

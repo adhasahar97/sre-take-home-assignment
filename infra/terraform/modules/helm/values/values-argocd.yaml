@@ -1,0 +1,8 @@
+server:
+  ingress:
+    enabled: true
+    ingressClassName: "cloudflare-tunnel"
+    hostname: feedme-argocd.${hostname}
+configs:
+  params:
+    server.insecure: true
