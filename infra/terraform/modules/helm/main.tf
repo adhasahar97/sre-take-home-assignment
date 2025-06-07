@@ -26,6 +26,8 @@ locals {
   }
 }
 
+# Trigger update test
+
 resource "helm_release" "release" {
   for_each = local.list_of_releases
 
