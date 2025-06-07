@@ -23,6 +23,16 @@ locals {
         "cloudflare_domain"            = var.cloudflare_domain
         "argocd_admin_password"        = var.argocd_admin_password
       }
+    },
+    "ingress-nginx" = {
+      name       = "ingress-nginx"
+      repository = "https://kubernetes.github.io/ingress-nginx"
+      chart      = "ingress-nginx"
+      namespace  = "ingress-nginx"
+      version    = "4.12.3"
+      values     = {
+        
+      }
     }
   }
 }
