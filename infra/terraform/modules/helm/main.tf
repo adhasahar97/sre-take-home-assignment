@@ -21,6 +21,7 @@ locals {
         "cloudflare_tunnel_account_id" = var.cloudflare_tunnel_account_id
         "cloudflare_tunnel_name"       = var.cloudflare_tunnel_name
         "cloudflare_domain"            = var.cloudflare_domain
+        "argocd_admin_password"        = var.argocd_admin_password
       }
     }
   }

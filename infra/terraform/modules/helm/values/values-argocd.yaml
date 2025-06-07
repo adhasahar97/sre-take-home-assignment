@@ -10,4 +10,4 @@ configs:
     feedme-sre:
       url: https://github.com/adhasahar97/sre-take-home-assignment
   secret:
-    argocdServerAdminPassword: "$2a$10$XHvt5cNjYfvO.hSs17xDa.LzI4Uysq.YQ76X3m4bSribMsI0CBA32"
+    argocdServerAdminPassword: ${argocd_admin_password}

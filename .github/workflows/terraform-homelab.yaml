@@ -26,6 +26,7 @@ jobs:
       TF_VAR_cloudflare_tunnel_name: ${{ vars.CLOUDFLARE_TUNNEL_NAME }} # For Cloudflare Ingress Controller helm release
       TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }} # For Cloudflare Ingress Controller helm release
       TF_VAR_cloudflare_domain: ${{ vars.CLOUDFLARE_DOMAIN }} # For Cloudflare Ingress Controller helm release
+      TF_VAR_argocd_admin_password: ${{ secrets.ARGOCD_ADMIN_PASSWORD }} # For ArgoCD helm release
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2

@@ -17,3 +17,10 @@ variable "cloudflare_domain" {
   description = "The hostname to be used with the Cloudflare tunnel"
   type        = string
 }
+
+variable "argocd_admin_password" {
+  description = "The password for the ArgoCD admin user"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
