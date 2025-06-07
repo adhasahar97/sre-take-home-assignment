@@ -13,6 +13,6 @@ resources:
 
 images:
 - name: adhasahar/feedme-sre-frontend
-  newTag: 1.0.1
+  newTag: 1.0.2
 - name: adhasahar/feedme-sre-backend
-  newTag: 1.0.1
+  newTag: 1.0.2
