@@ -6,3 +6,6 @@ server:
 configs:
   params:
     server.insecure: true
+  repositories:
+    feedme-sre:
+      url: https://github.com/adhasahar97/sre-take-home-assignment
