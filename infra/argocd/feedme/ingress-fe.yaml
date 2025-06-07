@@ -6,7 +6,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: cloudflare-tunnel
+  ingressClassName: nginx
   rules:
   - host: feedme.adhshr.xyz
     http:
@@ -25,3 +25,25 @@ spec:
             name: feedme-be
             port:
               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-to-nginx-ingress
+  namespace: feedme
+  annotations:
+    cloudflare-tunnel-ingress-controller.strrl.dev/backend-protocol: https
+    cloudflare-tunnel-ingress-controller.strrl.dev/proxy-ssl-verify: "off"
+spec:
+  ingressClassName: cloudflare-tunnel
+  rules:
+  - host: "feedme.adhshr.xyz"
+    http:
+      paths:
+      - backend:
+          service:
+            name: ingress-nginx-controller
+            port:
+              number: 443
+        path: /
+        pathType: Prefix
