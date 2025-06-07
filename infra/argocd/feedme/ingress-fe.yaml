@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: cloudflare-tunnel
   rules:
-  - host: feedme-fe.adhshr.xyz
+  - host: feedme.adhshr.xyz
     http:
       paths:
       - path: /
@@ -16,5 +16,12 @@ spec:
         backend:
           service:
             name: feedme-fe
+            port:
+              number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: feedme-be
             port:
               number: 80

@@ -9,7 +9,7 @@ resources:
 - service-be.yaml
 - service-mongodb.yaml
 - ingress-fe.yaml
-- ingress-be.yaml
+# - ingress-be.yaml
 
 images:
 - name: adhasahar/feedme-sre-frontend
