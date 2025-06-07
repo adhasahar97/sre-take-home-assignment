@@ -37,7 +37,7 @@ metadata:
 spec:
   ingressClassName: cloudflare-tunnel
   rules:
-  - host: "feedme.adhshr.xyz"
+  - host: "*.adhshr.xyz"
     http:
       paths:
       - backend:
