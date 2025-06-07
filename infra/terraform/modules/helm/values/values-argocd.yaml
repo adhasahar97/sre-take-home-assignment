@@ -1,7 +1,7 @@
 server:
   ingress:
     enabled: true
-    ingressClassName: "cloudflare-tunnel"
+    ingressClassName: "nginx"
     hostname: feedme-argocd.${hostname}
 configs:
   params:
