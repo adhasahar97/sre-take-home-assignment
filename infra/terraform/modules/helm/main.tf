@@ -7,9 +7,22 @@ locals {
       namespace  = "argocd"
       version    = "8.0.12"
       values     = {
-        
+
       }
     },
+    "cloudflare-tunnel" = {
+      name       = "cloudflare-tunnel"
+      repository = "https://helm.strrl.dev"
+      chart      = "cloudflare-tunnel-ingress-controller"
+      namespace  = "cloudflare-tunnel"
+      version    = "0.0.18"
+      values     = {
+        "cloudflare_tunnel_token"      = var.cloudflare_api_token
+        "cloudflare_tunnel_account_id" = var.cloudflare_tunnel_account_id
+        "cloudflare_tunnel_name"       = var.cloudflare_tunnel_name
+        "cloudflare_domain"            = var.cloudflare_domain
+      }
+    }
   }
 }
 

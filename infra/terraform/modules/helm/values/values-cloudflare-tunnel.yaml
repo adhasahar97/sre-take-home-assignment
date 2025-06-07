@@ -1,0 +1,4 @@
+cloudflare:
+  apiToken: ${cloudflare_tunnel_token}
+  accountId: ${cloudflare_tunnel_account_id}
+  tunnelName: ${cloudflare_tunnel_name}
