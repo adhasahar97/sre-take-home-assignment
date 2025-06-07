@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feedme-fe
+  namespace: feedme
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feedme-fe
+  template:
+    metadata:
+      labels:
+        app: feedme-fe
+    spec:
+      containers:
+      - name: feedme-fe
+        image: adhasahar/feedme-sre-frontend:latest

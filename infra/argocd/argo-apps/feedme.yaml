@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: feedme
+  namespace: argocd
+spec:
+  destination:
+    namespace: feedme
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: infra/argocd/feedme
+    repoURL: https://github.com/adhasahar97/sre-take-home-assignment
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - SetDeletionFinalizer=true

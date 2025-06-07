@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feedme-mongodb
+  namespace: feedme
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feedme-mongodb
+  template:
+    metadata:
+      labels:
+        app: feedme-mongodb
+    spec:
+      containers:
+      - name: feedme-mongodb
+        image: mongo:latest

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: feedme-mongodb
+  namespace: feedme
+spec:
+  selector:
+    app: feedme-mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP 
