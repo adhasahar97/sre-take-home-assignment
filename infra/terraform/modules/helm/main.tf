@@ -15,7 +15,7 @@ locals {
       repository = "https://helm.strrl.dev"
       chart      = "cloudflare-tunnel-ingress-controller"
       namespace  = "cloudflare-tunnel"
-      version    = "0.0.16"
+      version    = "0.0.18"
       values     = {
         "cloudflare_tunnel_token"      = var.cloudflare_api_token
         "cloudflare_tunnel_account_id" = var.cloudflare_tunnel_account_id
