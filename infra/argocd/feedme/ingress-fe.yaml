@@ -1,49 +1,49 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: feedme-fe
-  namespace: feedme
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: feedme.adhshr.xyz
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: feedme-fe
-            port:
-              number: 80
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: feedme-be
-            port:
-              number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-to-nginx-ingress
-  namespace: ingress-nginx
-  annotations:
-    cloudflare-tunnel-ingress-controller.strrl.dev/backend-protocol: http
-    cloudflare-tunnel-ingress-controller.strrl.dev/proxy-ssl-verify: "off"
-spec:
-  ingressClassName: cloudflare-tunnel
-  rules:
-  - host: "*.adhshr.xyz"
-    http:
-      paths:
-      - backend:
-          service:
-            name: ingress-nginx-controller
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: feedme-fe
+#   namespace: feedme
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#   - host: feedme.adhshr.xyz
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: feedme-fe
+#             port:
+#               number: 80
+#       - path: /api
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: feedme-be
+#             port:
+#               number: 80
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: ingress-to-nginx-ingress
+#   namespace: ingress-nginx
+#   annotations:
+#     cloudflare-tunnel-ingress-controller.strrl.dev/backend-protocol: http
+#     cloudflare-tunnel-ingress-controller.strrl.dev/proxy-ssl-verify: "off"
+# spec:
+#   ingressClassName: cloudflare-tunnel
+#   rules:
+#   - host: "*.adhshr.xyz"
+#     http:
+#       paths:
+#       - backend:
+#           service:
+#             name: ingress-nginx-controller
+#             port:
+#               number: 80
+#         path: /
+#         pathType: Prefix
