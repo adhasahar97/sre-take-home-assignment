@@ -23,3 +23,17 @@ spec:
         env:
         - name: MONGODB_URL
           value: mongodb://feedme-mongodb:27017
+        - name: OTEL_TRACES_EXPORTER
+          value: otlp
+        - name: OTEL_METRICS_EXPORTER
+          value: otlp
+        - name: OTEL_LOGS_EXPORTER
+          value: otlp
+        - name: NODE_OPTIONS
+          value: --require @opentelemetry/auto-instrumentations-node/register
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: service.name=feedme-backend,service.version=1.0.3
+        - name: OTEL_NODE_RESOURCE_DETECTORS
+          value: env,host,os
+        - name: OTEL_NODE_RESOURCE_DETECTORS
+          value: env,host,os,serviceinstance
