@@ -53,10 +53,6 @@ spec:
               value: "true"
             - name: ENABLE_LOGS_OTELCOL
               value: "true"
-          # NOTE: By default OpenShift does not allow writing the root directory.
-          # Thats why the data dirs for grafana, prometheus and loki can not be
-          # created and the pod never becomes ready.
-          # See: https://github.com/grafana/docker-otel-lgtm/issues/132
           volumeMounts:
             - name: tempo-data
               mountPath: /data/tempo
@@ -83,3 +79,24 @@ spec:
           emptyDir: {}
         - name: pyroscope-storage
           emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k6-tracing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k6-tracing
+  template:
+    metadata:
+      labels:
+        app: k6-tracing
+    spec:
+      containers:
+        - name: k6-tracing
+          image: ghcr.io/grafana/xk6-client-tracing:v0.0.7
+          env:
+          - name: ENDPOINT
+            value: lgtm.observability:4317
