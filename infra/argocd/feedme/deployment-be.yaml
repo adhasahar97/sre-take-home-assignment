@@ -37,3 +37,9 @@ spec:
           value: env,host,os
         - name: OTEL_NODE_RESOURCE_DETECTORS
           value: env,host,os,serviceinstance
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: otel-grpc.observability:4317
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: grpc
+        - name: OTEL_EXPORTER_OTLP_HEADERS
+          value: "x-tenant-id=feedme"
