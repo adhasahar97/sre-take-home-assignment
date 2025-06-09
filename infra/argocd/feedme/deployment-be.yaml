@@ -38,8 +38,6 @@ spec:
         - name: OTEL_NODE_RESOURCE_DETECTORS
           value: env,host,os,serviceinstance
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
-          value: lgtm.observability:4317
+          value: lgtm.observability:4318
         - name: OTEL_EXPORTER_OTLP_PROTOCOL
-          value: grpc
-        - name: OTEL_EXPORTER_OTLP_HEADERS
-          value: "x-tenant-id=feedme"
+          value: http/protobuf
