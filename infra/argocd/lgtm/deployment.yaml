@@ -46,6 +46,13 @@ spec:
               command:
                 - cat
                 - /tmp/ready
+          env:
+            - name: ENABLE_LOGS_LOKI
+              value: "true"
+            - name: ENABLE_LOGS_TEMPO
+              value: "true"
+            - name: ENABLE_LOGS_OTELCOL
+              value: "true"
           # NOTE: By default OpenShift does not allow writing the root directory.
           # Thats why the data dirs for grafana, prometheus and loki can not be
           # created and the pod never becomes ready.
