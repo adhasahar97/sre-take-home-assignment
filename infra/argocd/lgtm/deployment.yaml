@@ -80,23 +80,23 @@ spec:
         - name: pyroscope-storage
           emptyDir: {}
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: k6-tracing
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: k6-tracing
-  template:
-    metadata:
-      labels:
-        app: k6-tracing
-    spec:
-      containers:
-        - name: k6-tracing
-          image: ghcr.io/grafana/xk6-client-tracing:v0.0.7
-          env:
-          - name: ENDPOINT
-            value: lgtm.observability:4317
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: k6-tracing
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: k6-tracing
+#   template:
+#     metadata:
+#       labels:
+#         app: k6-tracing
+#     spec:
+#       containers:
+#         - name: k6-tracing
+#           image: ghcr.io/grafana/xk6-client-tracing:v0.0.7
+#           env:
+#           - name: ENDPOINT
+#             value: lgtm.observability:4317

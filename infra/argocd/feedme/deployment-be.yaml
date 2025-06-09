@@ -35,7 +35,7 @@ spec:
           value: service.name=feedme-backend,service.version=1.0.3
         - name: OTEL_NODE_RESOURCE_DETECTORS
           value: all
-        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
           value: "lgtm.observability:4318"
         - name: OTEL_EXPORTER_OTLP_PROTOCOL
           value: http/protobuf
