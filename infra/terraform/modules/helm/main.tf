@@ -33,6 +33,16 @@ locals {
       values     = {
         
       }
+    },
+    "grafana" = {
+      name       = "grafana"
+      repository = "https://grafana.github.io/helm-charts"
+      chart      = "grafana"
+      namespace  = "observability"
+      version    = "9.2.2"
+      values     = {
+        
+      }
     }
   }
 }

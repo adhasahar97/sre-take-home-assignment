@@ -23,6 +23,12 @@ spec:
         env:
         - name: MONGODB_URL
           value: mongodb://feedme-mongodb:27017
+        - name: OTEL_SERVICE_NAME
+          value: feedme-backend
+        - name: OTEL_SERVICE_VERSION
+          value: 1.0.4
+        - name: OTEL_EXPORTER_OTLP_COMPRESSION
+          value: gzip
         - name: OTEL_TRACES_EXPORTER
           value: otlp
         - name: OTEL_METRICS_EXPORTER
@@ -36,6 +42,6 @@ spec:
         - name: OTEL_NODE_RESOURCE_DETECTORS
           value: all
         - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-          value: "lgtm.observability:4318"
+          value: "lgtm.observability:4317"
         - name: OTEL_EXPORTER_OTLP_PROTOCOL
-          value: http/protobuf
+          value: grpc
