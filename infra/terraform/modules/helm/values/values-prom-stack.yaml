@@ -3,4 +3,10 @@ grafana:
     enabled: true
     ingressClassName: "nginx"
     hosts: 
-      - feedme-prom-stack.adhshr.xyz
+      - feedme-grafana.adhshr.xyz
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts: 
+      - feedme-prometheus.adhshr.xyz
