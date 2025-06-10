@@ -3,7 +3,7 @@ grafana:
     enabled: true
     ingressClassName: "nginx"
     hosts: 
-      - feedme-grafana.adhshr.xyz
+      - mtx-grafana.adhshr.xyz
   # https://grafana.com/docs/grafana/latest/datasources/loki/
   additionalDataSources:
     - name: Loki
