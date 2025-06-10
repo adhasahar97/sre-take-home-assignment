@@ -4,7 +4,7 @@ terraform {
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
-    config_context = "feedme-sre"
+    config_context = "microk8s"
   }
 }
 
