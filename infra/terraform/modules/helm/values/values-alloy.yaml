@@ -1,5 +1,6 @@
 alloy:
   configMap:
+  # https://grafana.com/docs/alloy/latest/collect/logs-in-kubernetes/
     content: |-
       // Write your Alloy config here:
       logging {
