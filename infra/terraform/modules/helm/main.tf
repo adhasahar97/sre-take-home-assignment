@@ -59,7 +59,7 @@ locals {
       repository = "https://grafana.github.io/helm-charts"
       chart      = "loki"
       namespace  = "observability"
-      version    = "1.1.1"
+      version    = "6.30.1"
       values     = {
         
       }
