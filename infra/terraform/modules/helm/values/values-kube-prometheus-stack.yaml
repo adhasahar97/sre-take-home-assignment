@@ -4,6 +4,14 @@ grafana:
     ingressClassName: "nginx"
     hosts: 
       - feedme-grafana.adhshr.xyz
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki:3100
+      jsonData:
+        timeout: 60
+        maxLines: 1000
 prometheus:
   ingress:
     enabled: true

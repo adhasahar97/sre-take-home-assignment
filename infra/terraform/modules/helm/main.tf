@@ -53,6 +53,26 @@ locals {
       values     = {
         
       }
+    },
+    "loki" = {
+      name       = "loki"
+      repository = "https://grafana.github.io/helm-charts"
+      chart      = "loki"
+      namespace  = "observability"
+      version    = "1.1.1"
+      values     = {
+        
+      }
+    },
+    "alloy" = {
+      name       = "alloy"
+      repository = "https://grafana.github.io/helm-charts"
+      chart      = "alloy"
+      namespace  = "observability"
+      version    = "1.1.1"
+      values     = {
+        
+      }
     }
   }
 }
