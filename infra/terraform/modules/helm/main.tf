@@ -70,7 +70,10 @@ resource "helm_release" "release" {
   create_namespace = lookup(each.value, "create_namespace", true)
   set {
     name  = "templates_hash"
-    value = sha1(filesha1("${path.module}/values/values-${each.value.name}.yaml"))
+    value = try(
+      sha1(filesha1("${path.module}/values/values-${each.value.name}.yaml")),
+      ""
+    )
   }
 
   values = try(
