@@ -1,0 +1,6 @@
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts: 
+      - feedme-prom-stack.adhshr.xyz

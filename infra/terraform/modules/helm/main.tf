@@ -34,12 +34,22 @@ locals {
         
       }
     },
-    "grafana" = {
-      name       = "grafana"
-      repository = "https://grafana.github.io/helm-charts"
-      chart      = "grafana"
+    # "grafana" = {
+    #   name       = "grafana"
+    #   repository = "https://grafana.github.io/helm-charts"
+    #   chart      = "grafana"
+    #   namespace  = "observability"
+    #   version    = "9.2.2"
+    #   values     = {
+        
+    #   }
+    # },
+    "prom-stack" = {
+      name       = "kube-prometheus-stack"
+      repository = "https://prometheus-community.github.io/helm-charts"
+      chart      = "kube-prometheus-stack"
       namespace  = "observability"
-      version    = "9.2.2"
+      version    = "73.2.0"
       values     = {
         
       }
