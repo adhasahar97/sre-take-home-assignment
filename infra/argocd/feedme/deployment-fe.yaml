@@ -3,6 +3,11 @@ kind: Deployment
 metadata:
   name: feedme-fe
   namespace: feedme
+  labels:
+    app: feedme-fe
+    app.kubernetes.io/name: feedme-fe
+    app.kubernetes.io/part-of: feedme
+    app.kubernetes.io/component: frontend
 spec:
   replicas: 1
   selector:
