@@ -68,6 +68,10 @@ resource "helm_release" "release" {
   version          = each.value.version
   namespace        = each.value.namespace
   create_namespace = lookup(each.value, "create_namespace", true)
+  set {
+    name  = "templates_hash"
+    value = sha1(filesha1("${path.module}/values/values-${each.value.name}.yaml"))
+  }
 
   values = try(
     [templatefile("${path.module}/values/values-${each.value.name}.yaml", each.value.values)],
