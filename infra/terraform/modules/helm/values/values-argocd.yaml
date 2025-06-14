@@ -2,7 +2,7 @@ server:
   ingress:
     enabled: true
     ingressClassName: "nginx"
-    hostname: feedme-argocd2.${hostname}
+    hostname: feedme-argocd.${hostname}
 configs:
   params:
     server.insecure: true
