@@ -90,4 +90,5 @@ resource "helm_release" "release" {
     [templatefile("${path.module}/values/values-${each.value.name}.yaml", each.value.values)],
     []
   )
+
 }

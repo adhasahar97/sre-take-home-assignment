@@ -1,3 +1,5 @@
 controller:
   service:
     type: ClusterIP
+  admissionWebhooks:
+    enabled: false
