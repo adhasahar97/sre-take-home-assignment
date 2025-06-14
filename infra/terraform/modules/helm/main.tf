@@ -54,16 +54,16 @@ locals {
         
       }
     },
-    "argo-cd" = {
-      name       = "argo-cd"
-      repository = "https://argoproj.github.io/argo-helm"
-      chart      = "argo-cd"
-      namespace  = "argo-cd"
-      version    = "8.0.17"
-      values     = {
-        "hostname" = var.cloudflare_domain
-      }
-    }
+    # "argocd" = {
+    # name       = "argocd"
+    # repository = "https://argoproj.github.io/argo-helm"
+    # chart      = "argo-cd"
+    # namespace  = "argocd"
+    # version    = "8.0.17"
+    # values     = {
+    # "hostname" = var.cloudflare_domain
+    #   }
+    # }
   }
 }
 
@@ -79,8 +79,8 @@ resource "helm_release" "release" {
   namespace        = each.value.namespace
   create_namespace = lookup(each.value, "create_namespace", true)
   # set {
-  #   name  = "templates_hash"
-  #   value = try(
+  # name  = "templates_hash"
+  # value = try(
   #     sha1(filesha1("${path.module}/values/values-${each.value.name}.yaml")),
   #     ""
   #   )
@@ -91,4 +91,19 @@ resource "helm_release" "release" {
     []
   )
 
+}
+
+resource "helm_release" "argocd" {
+  name       = "argocd"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+  namespace  = "argocd"
+  version    = "8.0.17"
+  values     = [
+    templatefile("${path.module}/values/values-argocd.yaml", {
+      hostname       = var.cloudflare_domain
+      admin_password = var.argocd_admin_password
+    })
+  ]
+  create_namespace = true
 }
