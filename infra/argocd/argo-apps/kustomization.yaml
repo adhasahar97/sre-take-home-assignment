@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
 - feedme.yaml
-- lgtm.yaml
+# - lgtm.yaml
