@@ -101,8 +101,8 @@ resource "helm_release" "argocd" {
   version    = "8.0.17"
   values     = [
     templatefile("${path.module}/values/values-argocd.yaml", {
-      hostname       = var.cloudflare_domain
-      admin_password = var.argocd_admin_password
+      hostname              = var.cloudflare_domain
+      argocd_admin_password = var.argocd_admin_password
     })
   ]
   create_namespace = true
