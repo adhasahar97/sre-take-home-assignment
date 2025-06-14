@@ -1,6 +1,6 @@
 grafana:
   ingress:
-    enabled: false
+    enabled: true
     ingressClassName: "nginx"
     hosts: 
       - feedme-grafana.adhshr.xyz

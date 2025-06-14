@@ -1,6 +1,6 @@
 server:
   ingress:
-    enabled: false
+    enabled: true
     ingressClassName: "nginx"
     hostname: feedme-argocd.${hostname}
 configs:
