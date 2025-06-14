@@ -54,16 +54,16 @@ locals {
         
       }
     },
-    # "argocd" = {
-    #   name       = "argocd"
-    #   repository = "https://argoproj.github.io/argo-helm"
-    #   chart      = "argo-cd"
-    #   namespace  = "argocd"
-    #   version    = "8.0.17"
-    #   values     = {
-    #     "hostname" = var.cloudflare_domain
-    #   }
-    # }
+    "argo-cd" = {
+      name       = "argo-cd"
+      repository = "https://argoproj.github.io/argo-helm"
+      chart      = "argo-cd"
+      namespace  = "argo-cd"
+      version    = "8.0.17"
+      values     = {
+        "hostname" = var.cloudflare_domain
+      }
+    }
   }
 }
 
