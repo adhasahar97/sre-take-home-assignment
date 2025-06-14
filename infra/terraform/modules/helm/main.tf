@@ -5,7 +5,7 @@ locals {
       repository = "https://argoproj.github.io/argo-helm"
       chart      = "argo-cd"
       namespace  = "argocd"
-      version    = "8.0.12"
+      version    = "8.0.17"
       values     = {
         "hostname" = var.cloudflare_domain
       }
