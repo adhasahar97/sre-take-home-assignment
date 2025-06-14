@@ -1,15 +1,5 @@
 locals {
   list_of_releases = {
-    "argocd" = {
-      name       = "argocd"
-      repository = "https://argoproj.github.io/argo-helm"
-      chart      = "argo-cd"
-      namespace  = "argocd"
-      version    = "8.0.17"
-      values     = {
-        "hostname" = var.cloudflare_domain
-      }
-    },
     "cloudflare-tunnel" = {
       name       = "cloudflare-tunnel"
       repository = "https://helm.strrl.dev"
@@ -63,6 +53,16 @@ locals {
       values     = {
         
       }
+    },
+    "argocd" = {
+      name       = "argocd"
+      repository = "https://argoproj.github.io/argo-helm"
+      chart      = "argo-cd"
+      namespace  = "argocd"
+      version    = "8.0.17"
+      values     = {
+        "hostname" = var.cloudflare_domain
+      }
     }
   }
 }
@@ -78,13 +78,13 @@ resource "helm_release" "release" {
   version          = each.value.version
   namespace        = each.value.namespace
   create_namespace = lookup(each.value, "create_namespace", true)
-  set {
-    name  = "templates_hash"
-    value = try(
-      sha1(filesha1("${path.module}/values/values-${each.value.name}.yaml")),
-      ""
-    )
-  }
+  # set {
+  #   name  = "templates_hash"
+  #   value = try(
+  #     sha1(filesha1("${path.module}/values/values-${each.value.name}.yaml")),
+  #     ""
+  #   )
+  # }
 
   values = try(
     [templatefile("${path.module}/values/values-${each.value.name}.yaml", each.value.values)],
