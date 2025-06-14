@@ -4,7 +4,7 @@ terraform {
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
-    config_context = "cluster-1"
+    config_context = "cluser-1"
   }
 }
 
