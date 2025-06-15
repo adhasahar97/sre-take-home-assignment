@@ -21,6 +21,19 @@ loki:
 
 minio:
   enabled: true
+  buckets:
+    - name: chunks
+      policy: none
+      purge: false
+    - name: ruler
+      policy: none
+      purge: false
+    - name: admin
+      policy: none
+      purge: false
+    - name: tempo-traces
+      policy: none
+      purge: false
       
 deploymentMode: SingleBinary
 

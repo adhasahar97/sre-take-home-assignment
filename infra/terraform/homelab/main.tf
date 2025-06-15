@@ -8,6 +8,11 @@ provider "helm" {
   }
 }
 
+provider "kubernetes" {
+  config_path    = "~/.kube/config"
+  config_context = "cluster-1"
+}
+
 module "helm" {
   source = "../modules/helm"
   cloudflare_api_token         = var.cloudflare_api_token

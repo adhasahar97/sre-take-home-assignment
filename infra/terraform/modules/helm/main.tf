@@ -27,6 +27,7 @@ resource "helm_release" "ingress-nginx" {
     })
   ]
   create_namespace = true
+  depends_on = [ helm_release.cloudflare-tunnel ]
 }
 
 resource "helm_release" "kube-prometheus-stack" {
@@ -41,6 +42,7 @@ resource "helm_release" "kube-prometheus-stack" {
     })
   ]
   create_namespace = true
+  depends_on = [ kubernetes_ingress_v1.cf-to-nginx ]
 }
 
 resource "helm_release" "loki" {
@@ -94,4 +96,37 @@ resource "helm_release" "argocd" {
     })
   ]
   create_namespace = true
+  depends_on = [ kubernetes_ingress_v1.cf-to-nginx ]
+}
+
+resource "kubernetes_ingress_v1" "cf-to-nginx" {
+  metadata {
+    name = "cf-to-nginx"
+    namespace = ingress-nginx
+    annotations = {
+      "cloudflare-tunnel-ingress-controller.strrl.dev/backend-protocol" = "http"
+      "cloudflare-tunnel-ingress-controller.strrl.dev/proxy-ssl-verify" = "off"
+    }
+  }
+  spec {
+    ingress_class_name = "cloudflare-tunnel"
+    rule {
+      host = "*.adhshr.xyz"
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "ingress-nginx-controller"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  depends_on = [ helm_release.cloudflare-tunnel, helm_release.ingress-nginx]
 }

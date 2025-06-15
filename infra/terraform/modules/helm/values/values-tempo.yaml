@@ -1,16 +1,12 @@
-# MinIO storage configuration
-# Note: MinIO should not be used for production environments. This is for demonstration purposes only.
-minio:
-  enabled: true
-  mode: standalone
-  rootUser: grafana-tempo
-  rootPassword: supersecret
-  buckets:
-    # Default Tempo storage bucket
-    - name: tempo-traces
-      policy: none
-      purge: false
-# Specifies which trace protocols to accept by the gateway.
+storage:
+  trace:
+    backend: s3
+    s3:
+      access_key: 'logs-user'
+      secret_key: 'supersecretpassword'
+      bucket: 'tempo-traces'
+      endpoint: 'loki-minio:9000'
+      insecure: true
 traces:
   otlp:
     grpc:
