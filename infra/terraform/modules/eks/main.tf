@@ -150,9 +150,13 @@ resource "aws_eks_node_group" "nodegroup" {
       var.subnet_b_id
   ]
   instance_types = [
-    "r6g.medium"
+    "r6g.xlarge",
+    "r7g.xlarge",
+    "m6g.2xlarge",
+    "m7g.2xlarge",
   ]
   ami_type = "BOTTLEROCKET_ARM_64"
+  capacity_type = "SPOT"
 
   scaling_config {
     desired_size = 1
