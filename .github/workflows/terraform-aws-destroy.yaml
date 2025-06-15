@@ -41,6 +41,10 @@ jobs:
     # - name: Terraform Plan
     #   working-directory: ./infra/terraform/aws
     #   run: terraform plan
+
+    - name: Terraform delete helm module state
+      working-directory: ./infra/terraform/aws
+      run: terraform state rm 'module.helm'
         
     - name: Terraform Destroy
       if: github.event_name != 'pull_request'
