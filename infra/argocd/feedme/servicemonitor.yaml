@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: feedme-be
+    app.kubernetes.io/part-of: feedme
+    app.kubernetes.io/component: backend
+  name: feedme-be
+  namespace: observability
+spec:
+  endpoints:
+    - honorLabels: true
+      path: /metrics
+      port: 80
+      scheme: http
+      scrapeTimeout: 30s
+  jobLabel: feedme-be
+  namespaceSelector:
+    matchNames:
+      - feedme
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: feedme-be

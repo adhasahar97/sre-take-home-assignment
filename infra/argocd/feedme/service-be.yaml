@@ -3,9 +3,14 @@ kind: Service
 metadata:
   name: feedme-be
   namespace: feedme
+  labels:
+    app: feedme-be
+    app.kubernetes.io/name: feedme-be
+    app.kubernetes.io/part-of: feedme
+    app.kubernetes.io/component: backend
 spec:
   selector:
-    app: feedme-be
+    app.kubernetes.io/name: feedme-be
   ports:
     - protocol: TCP
       port: 80
