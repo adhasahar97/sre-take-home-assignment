@@ -22,7 +22,7 @@ grafana:
         tracesToLogs:
           datasourceUid: 'Loki'
         serviceMap:
-          datasourceUid: 'Prometheus'
+          datasourceUid: 'prometheus'
 prometheus:
   ingress:
     enabled: true

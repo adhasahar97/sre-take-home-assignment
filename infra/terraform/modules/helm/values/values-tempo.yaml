@@ -20,3 +20,6 @@ traces:
       enabled: false
   opencensus:
     enabled: false
+metricsGenerator:
+  # -- Specifies whether a metrics-generator should be deployed
+  enabled: true
