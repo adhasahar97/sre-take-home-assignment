@@ -61,18 +61,15 @@ async function main() {
 
   app.get("/orders", async (req, res) => {
     const orders = await orderCollection.find({}).toArray();
-    console.log("Get orders", orders)
     res.send(orders);
   });
 
   app.delete("/orders/:id", async (req, res) => {
-    console.log("Delete order", req.params.id);
     await orderCollection.deleteOne({ _id: Number(req.params.id) });
     res.send("ok");
   });
 
   app.post("/orders", async (req, res) => {
-    console.log("Create order");
     const orderSeq = await counterCollection.findOne({ _id: "orderSeq" });
     await orderCollection.insertOne({
       _id: orderSeq.seq++,
