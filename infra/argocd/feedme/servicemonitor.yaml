@@ -11,7 +11,7 @@ spec:
   endpoints:
     - honorLabels: true
       path: /metrics
-      port: 80
+      port: http
       scheme: http
       scrapeTimeout: 30s
   jobLabel: feedme-be
