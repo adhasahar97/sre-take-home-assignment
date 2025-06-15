@@ -68,7 +68,14 @@ resource "aws_iam_role_policy_attachment" "ebs-csi" {
 resource "aws_eks_addon" "ebs-csi-driver" {
   cluster_name                = aws_eks_cluster.feedme-sre.name
   addon_name                  = "aws-ebs-csi-driver"
-  addon_version               = "v1.44.0-eksbuild.1" #e.g., previous version v1.9.3-eksbuild.3 and the new version is v1.10.1-eksbuild.1
+  addon_version               = "v1.44.0-eksbuild.1"
+  resolve_conflicts_on_update = "PRESERVE"
+}
+
+resource "aws_eks_addon" "eks-pod-identity-agent" {
+  cluster_name                = aws_eks_cluster.feedme-sre.name
+  addon_name                  = "eks-pod-identity-agent"
+  addon_version               = "v1.3.7-eksbuild.2"
   resolve_conflicts_on_update = "PRESERVE"
 }
 
