@@ -1,0 +1,48 @@
+name: Terraform AWS destroy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    environment: homelab
+    runs-on: self-hosted
+    env:
+      AWS_DEFAULT_REGION: ap-southeast-5 # For Terraform AWS provider
+      TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} # For Cloudflare Ingress Controller helm release
+      TF_VAR_cloudflare_tunnel_name: ${{ vars.CLOUDFLARE_TUNNEL_NAME }} # For Cloudflare Ingress Controller helm release
+      TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }} # For Cloudflare Ingress Controller helm release
+      TF_VAR_cloudflare_domain: ${{ vars.CLOUDFLARE_DOMAIN }} # For Cloudflare Ingress Controller helm release
+      TF_VAR_argocd_admin_password: ${{ secrets.ARGOCD_ADMIN_PASSWORD }} # For ArgoCD helm release
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4.1.0
+      with:
+        aws-region: ap-southeast-1
+        role-to-assume: arn:aws:iam::955059924186:role/terraform-admin-role
+        role-session-name: terraform-session-${{ github.run_id }}
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.12.2
+
+    - name: Terraform Init
+      working-directory: ./infra/terraform/aws
+      run: terraform init
+
+    - name: Terraform Plan
+      working-directory: ./infra/terraform/aws
+      run: terraform plan
+        
+    - name: Terraform Apply
+      if: github.event_name != 'pull_request'
+      working-directory: ./infra/terraform/aws
+      run: terraform destroy -auto-approve
