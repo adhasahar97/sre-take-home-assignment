@@ -47,6 +47,6 @@ spec:
         - name: OTEL_NODE_RESOURCE_DETECTORS
           value: all
         - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-          value: "tempo-distributor.observability:4317"
+          value: "tempo-distributor.observability.svc.cluster.local:4317"
         - name: OTEL_EXPORTER_OTLP_PROTOCOL
           value: grpc
