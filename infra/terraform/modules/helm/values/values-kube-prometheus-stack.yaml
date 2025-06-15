@@ -13,6 +13,16 @@ grafana:
       jsonData:
         timeout: 60
         maxLines: 1000
+    - name: Tempo
+      type: tempo
+      access: proxy
+      url: http://tempo-query-frontend:3100
+      jsonData:
+        httpMethod: GET
+        tracesToLogs:
+          datasourceUid: 'Loki'
+        serviceMap:
+          datasourceUid: 'Prometheus'
 prometheus:
   ingress:
     enabled: true
