@@ -203,6 +203,24 @@ resource "aws_iam_role_policy_attachment" "nodegroup-AmazonEC2ContainerRegistryR
   role       = aws_iam_role.nodegroup.name
 }
 
+data "aws_caller_identity" "current" {}
+
+resource "aws_eks_access_entry" "current-user-admin" {
+  cluster_name  = aws_eks_cluster.feedme-sre.name
+  principal_arn = data.aws_caller_identity.current.arn
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "current-user-admin" {
+  cluster_name  = aws_eks_cluster.feedme-sre.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  principal_arn = data.aws_caller_identity.current.arn
+
+  access_scope {
+    type = "cluster"
+  }
+}
+
 resource "aws_eks_access_entry" "sso-user-admin" {
   cluster_name  = aws_eks_cluster.feedme-sre.name
   principal_arn = "arn:aws:iam::955059924186:role/aws-reserved/sso.amazonaws.com/ap-southeast-1/AWSReservedSSO_AdministratorAccess_40cd3c332a9d6ca6"
