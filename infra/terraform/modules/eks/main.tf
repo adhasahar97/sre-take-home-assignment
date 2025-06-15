@@ -65,6 +65,13 @@ resource "aws_iam_role_policy_attachment" "ebs-csi" {
   role       = aws_iam_role.ebs-csi.name
 }
 
+resource "aws_eks_addon" "ebs-csi-driver" {
+  cluster_name                = aws_eks_cluster.feedme-sre.name
+  addon_name                  = "aws-ebs-csi-driver"
+  addon_version               = "v1.44.0-eksbuild.1" #e.g., previous version v1.9.3-eksbuild.3 and the new version is v1.10.1-eksbuild.1
+  resolve_conflicts_on_update = "PRESERVE"
+}
+
 resource "aws_iam_role" "cluster" {
   name               = "eks-cluster-example"
   assume_role_policy = jsonencode({
@@ -160,7 +167,7 @@ resource "aws_eks_node_group" "nodegroup" {
 
   scaling_config {
     desired_size = 1
-    max_size     = 1
+    max_size     = 2
     min_size     = 1
   }
 
