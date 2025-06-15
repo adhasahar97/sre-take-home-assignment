@@ -19,7 +19,7 @@ jobs:
   terraform:
     runs-on: self-hosted
     env:
-      AWS_DEFAULT_REGION: ap-southeast-1 # For Terraform AWS provider
+      AWS_DEFAULT_REGION: ap-southeast-5 # For Terraform AWS provider
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
