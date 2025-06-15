@@ -130,3 +130,18 @@ resource "kubernetes_ingress_v1" "cf-to-nginx" {
 
   depends_on = [ helm_release.cloudflare-tunnel, helm_release.ingress-nginx]
 }
+resource "kubernetes_storage_class_v1" "gp2-default" {
+  metadata {
+    name = "gp2-default"
+    annotations = {
+      "storageclass.kubernetes.io/is-default-class" = "true"
+    } 
+  }
+  storage_provisioner = "kubernetes.io/aws-ebs"
+  reclaim_policy      = "Delete"
+  parameters = {
+    type = "gp2"
+    fsType = "ext4"
+  }
+  volume_binding_mode = "WaitForFirstConsumer"
+}
