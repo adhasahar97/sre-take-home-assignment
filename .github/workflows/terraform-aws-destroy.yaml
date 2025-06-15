@@ -45,6 +45,10 @@ jobs:
     - name: Terraform delete helm module state
       working-directory: ./infra/terraform/aws
       run: terraform state rm 'module.helm'
+
+    - name: Terraform delete helm module state
+      working-directory: ./infra/terraform/aws
+      run: terraform state rm 'kubernetes_namespace.debug'
         
     - name: Terraform Destroy
       if: github.event_name != 'pull_request'
