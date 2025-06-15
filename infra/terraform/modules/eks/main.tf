@@ -66,16 +66,16 @@ resource "aws_iam_role_policy_attachment" "ebs-csi" {
 }
 
 resource "aws_iam_role" "cluster" {
-  name = "eks-cluster-example"
+  name               = "eks-cluster-example"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
         Action = [
           "sts:AssumeRole",
           "sts:TagSession"
         ]
-        Effect = "Allow"
+        Effect    = "Allow"
         Principal = {
           Service = "eks.amazonaws.com"
         }
@@ -85,13 +85,13 @@ resource "aws_iam_role" "cluster" {
 }
 
 resource "aws_iam_role" "node" {
-  name = "eks-auto-node-example"
+  name               = "eks-auto-node-example"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
-        Action = ["sts:AssumeRole"]
-        Effect = "Allow"
+        Action    = ["sts:AssumeRole"]
+        Effect    = "Allow"
         Principal = {
           Service = "ec2.amazonaws.com"
         }
@@ -178,8 +178,8 @@ resource "aws_iam_role" "nodegroup" {
 
   assume_role_policy = jsonencode({
     Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
       Principal = {
         Service = "ec2.amazonaws.com"
       }
@@ -201,4 +201,20 @@ resource "aws_iam_role_policy_attachment" "nodegroup-AmazonEKS_CNI_Policy" {
 resource "aws_iam_role_policy_attachment" "nodegroup-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.nodegroup.name
+}
+
+resource "aws_eks_access_entry" "sso-user-admin" {
+  cluster_name  = aws_eks_cluster.feedme-sre.name
+  principal_arn = "arn:aws:iam::955059924186:role/aws-reserved/sso.amazonaws.com/ap-southeast-1/AWSReservedSSO_AdministratorAccess_40cd3c332a9d6ca6"
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "sso-user-admin" {
+  cluster_name  = aws_eks_cluster.feedme-sre.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  principal_arn = "arn:aws:iam::955059924186:role/aws-reserved/sso.amazonaws.com/ap-southeast-1/AWSReservedSSO_AdministratorAccess_40cd3c332a9d6ca6"
+
+  access_scope {
+    type = "cluster"
+  }
 }

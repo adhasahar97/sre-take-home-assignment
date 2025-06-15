@@ -2,6 +2,7 @@ resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr_block
 }
 
+# Enable auto-assign public IPs for the VPC: https://github.com/hashicorp/terraform/issues/263
 resource "aws_subnet" "subnet_a" {
   vpc_id     = aws_vpc.main.id
   cidr_block = cidrsubnet(var.vpc_cidr_block, 8, 1)
