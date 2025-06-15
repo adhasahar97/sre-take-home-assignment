@@ -42,7 +42,7 @@ jobs:
       working-directory: ./infra/terraform/aws
       run: terraform plan
         
-    - name: Terraform Apply
+    - name: Terraform Destroy
       if: github.event_name != 'pull_request'
       working-directory: ./infra/terraform/aws
-      run: terraform destroy -auto-approve
+      run: terraform destroy -refresh=false -auto-approve
