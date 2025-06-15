@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   terraform:
+    environment: homelab
     runs-on: self-hosted
     env:
       AWS_DEFAULT_REGION: ap-southeast-5 # For Terraform AWS provider
@@ -39,7 +40,7 @@ jobs:
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
       with:
-        terraform_version: 1.0.11
+        terraform_version: 1.12.2
 
     - name: Terraform Init
       working-directory: ./infra/terraform/aws
