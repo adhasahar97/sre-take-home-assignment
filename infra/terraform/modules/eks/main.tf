@@ -195,6 +195,11 @@ resource "aws_iam_role_policy_attachment" "nodegroup-AmazonEC2ContainerRegistryR
   role       = aws_iam_role.nodegroup.name
 }
 
+resource "aws_iam_role_policy_attachment" "nodegroup-ebs-csi" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  role       = aws_iam_role.nodegroup.name
+}
+
 data "aws_caller_identity" "current" {}
 
 resource "aws_eks_access_entry" "current-user-admin" {
