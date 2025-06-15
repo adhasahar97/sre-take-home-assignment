@@ -23,13 +23,13 @@ resource "kubernetes_namespace" "debug" {
   }
 }
 
-# provider "helm" {
-#   kubernetes {
-#     host                   = module.eks.cluster.endpoint
-#     cluster_ca_certificate = base64decode(module.eks.cluster.certificate_authority[0].data)
-#     token                  = ephemeral.aws_eks_cluster_auth.feedme-sre.token
-#   }
-# }
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster.endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster.certificate_authority[0].data)
+    token                  = ephemeral.aws_eks_cluster_auth.feedme-sre.token
+  }
+}
 
 provider "aws" {
   region = "ap-southeast-5"
@@ -46,11 +46,11 @@ module "eks" {
   subnet_b_id = module.vpc.subnet_b_id
 }
 
-# module "helm" {
-#   source = "../modules/helm"
-#   cloudflare_api_token         = var.cloudflare_api_token
-#   cloudflare_tunnel_account_id = var.cloudflare_account_id
-#   cloudflare_tunnel_name       = var.cloudflare_tunnel_name
-#   cloudflare_domain            = var.cloudflare_domain
-#   argocd_admin_password        = var.argocd_admin_password
-# }
+module "helm" {
+  source = "../modules/helm"
+  cloudflare_api_token         = var.cloudflare_api_token
+  cloudflare_tunnel_account_id = var.cloudflare_account_id
+  cloudflare_tunnel_name       = var.cloudflare_tunnel_name
+  cloudflare_domain            = var.cloudflare_domain
+  argocd_admin_password        = var.argocd_admin_password
+}
