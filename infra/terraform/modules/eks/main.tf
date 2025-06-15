@@ -207,14 +207,14 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_eks_access_entry" "current-user-admin" {
   cluster_name  = aws_eks_cluster.feedme-sre.name
-  principal_arn = data.aws_caller_identity.current.arn
+  principal_arn = "arn:aws:iam::955059924186:role/terraform-admin-role"
   type          = "STANDARD"
 }
 
 resource "aws_eks_access_policy_association" "current-user-admin" {
   cluster_name  = aws_eks_cluster.feedme-sre.name
   policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-  principal_arn = data.aws_caller_identity.current.arn
+  principal_arn = "arn:aws:iam::955059924186:role/terraform-admin-role"
 
   access_scope {
     type = "cluster"

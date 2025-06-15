@@ -35,7 +35,7 @@ jobs:
       with:
         aws-region: ap-southeast-1
         role-to-assume: arn:aws:iam::955059924186:role/terraform-admin-role
-        role-session-name: terraform-session-${{ github.run_id }}
+        role-session-name: terraform-session
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
