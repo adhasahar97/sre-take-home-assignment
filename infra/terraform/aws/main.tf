@@ -17,12 +17,6 @@ provider "kubernetes" {
   token                  = ephemeral.aws_eks_cluster_auth.feedme-sre.token
 }
 
-resource "kubernetes_namespace" "debug" {
-  metadata {
-    name = "debut-namespace"
-  }
-}
-
 provider "helm" {
   kubernetes {
     host                   = module.eks.cluster.endpoint
