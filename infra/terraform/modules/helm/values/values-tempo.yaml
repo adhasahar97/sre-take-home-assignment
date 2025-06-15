@@ -1,0 +1,26 @@
+# MinIO storage configuration
+# Note: MinIO should not be used for production environments. This is for demonstration purposes only.
+minio:
+  enabled: true
+  mode: standalone
+  rootUser: grafana-tempo
+  rootPassword: supersecret
+  buckets:
+    # Default Tempo storage bucket
+    - name: tempo-traces
+      policy: none
+      purge: false
+# Specifies which trace protocols to accept by the gateway.
+traces:
+  otlp:
+    grpc:
+      enabled: true
+    http:
+      enabled: true
+  zipkin:
+    enabled: false
+  jaeger:
+    thriftHttp:
+      enabled: false
+  opencensus:
+    enabled: false
