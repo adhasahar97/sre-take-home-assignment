@@ -20,10 +20,16 @@ terraform {
 # }
 
 provider "aws" {
-  region = "ap-southeast-1"
+  region = "ap-southeast-5"
 }
 
 module "vpc" {
   source = "../modules/vpc"
   vpc_cidr_block = "10.0.0.0/16"
+}
+
+module "eks" {
+  source = "../modules/eks"
+  subnet_a_id = module.vpc.subnet_a_id
+  subnet_b_id = module.vpc.subnet_b_id
 }
