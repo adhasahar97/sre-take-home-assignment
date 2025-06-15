@@ -16,7 +16,7 @@ grafana:
     - name: Tempo
       type: tempo
       access: proxy
-      url: http://tempo-query-frontend:3100
+      url: http://tempo-query-frontend:3200
       jsonData:
         httpMethod: GET
         tracesToLogs:
