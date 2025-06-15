@@ -70,18 +70,18 @@ resource "helm_release" "alloy" {
   ]
   create_namespace = true
 }
-# resource "helm_release" "tempo" {
-#   name       = "tempo"
-#   repository = "https://grafana.github.io/helm-charts"
-#   chart      = "tempo-distributed"
-#   namespace  = "observability"
-#   version    = "1.42.0"
-#   values     = [
-#     templatefile("${path.module}/values/values-tempo.yaml", {
-#     })
-#   ]
-#   create_namespace = true
-# }
+resource "helm_release" "tempo" {
+  name       = "tempo"
+  repository = "https://grafana.github.io/helm-charts"
+  chart      = "tempo-distributed"
+  namespace  = "observability"
+  version    = "1.42.0"
+  values     = [
+    templatefile("${path.module}/values/values-tempo.yaml", {
+    })
+  ]
+  create_namespace = true
+}
 
 resource "helm_release" "argocd" {
   name       = "argocd"
