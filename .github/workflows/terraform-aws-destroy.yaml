@@ -38,9 +38,9 @@ jobs:
       working-directory: ./infra/terraform/aws
       run: terraform init
 
-    - name: Terraform Plan
-      working-directory: ./infra/terraform/aws
-      run: terraform plan
+    # - name: Terraform Plan
+    #   working-directory: ./infra/terraform/aws
+    #   run: terraform plan
         
     - name: Terraform Destroy
       if: github.event_name != 'pull_request'
