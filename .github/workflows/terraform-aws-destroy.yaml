@@ -43,10 +43,12 @@ jobs:
     #   run: terraform plan
 
     - name: Terraform delete helm module state
+      continue-on-error: true
       working-directory: ./infra/terraform/aws
       run: terraform state rm 'module.helm'
 
     - name: Terraform delete helm module state
+      continue-on-error: true
       working-directory: ./infra/terraform/aws
       run: terraform state rm 'kubernetes_namespace.debug'
         
