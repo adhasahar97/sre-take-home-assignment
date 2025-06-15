@@ -8,7 +8,7 @@ terraform {
 }
 
 ephemeral "aws_eks_cluster_auth" "feedme-sre" {
-  name = module.eks.cluster
+  name = module.eks.cluster 
 }
 
 provider "kubernetes" {
@@ -38,4 +38,13 @@ module "eks" {
   source = "../modules/eks"
   subnet_a_id = module.vpc.subnet_a_id
   subnet_b_id = module.vpc.subnet_b_id
+}
+
+module "helm" {
+  source = "../modules/helm"
+  cloudflare_api_token         = var.cloudflare_api_token
+  cloudflare_tunnel_account_id = var.cloudflare_account_id
+  cloudflare_tunnel_name       = var.cloudflare_tunnel_name
+  cloudflare_domain            = var.cloudflare_domain
+  argocd_admin_password        = var.argocd_admin_password
 }
