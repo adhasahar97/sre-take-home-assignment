@@ -102,7 +102,7 @@ resource "helm_release" "argocd" {
 resource "kubernetes_ingress_v1" "cf-to-nginx" {
   metadata {
     name = "cf-to-nginx"
-    namespace = ingress-nginx
+    namespace = helm_release.ingress-nginx.namespace
     annotations = {
       "cloudflare-tunnel-ingress-controller.strrl.dev/backend-protocol" = "http"
       "cloudflare-tunnel-ingress-controller.strrl.dev/proxy-ssl-verify" = "off"
