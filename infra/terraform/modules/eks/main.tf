@@ -152,6 +152,7 @@ resource "aws_eks_node_group" "nodegroup" {
   instance_types = [
     "r6g.medium"
   ]
+  ami_type = "BOTTLEROCKET_ARM_64"
 
   scaling_config {
     desired_size = 1
