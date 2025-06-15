@@ -8,7 +8,7 @@ terraform {
 }
 
 ephemeral "aws_eks_cluster_auth" "feedme-sre" {
-  name = module.eks.cluster 
+  name = module.eks.cluster.id
 }
 
 provider "kubernetes" {
