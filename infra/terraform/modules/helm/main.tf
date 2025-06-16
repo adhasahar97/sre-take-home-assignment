@@ -129,29 +129,3 @@ resource "helm_release" "argocd" {
 
 #   depends_on = [ helm_release.cloudflare-tunnel, helm_release.ingress-nginx]
 # }
-
-resource "null_resource" "previous" {}
-
-resource "time_sleep" "wait_10_seconds" {
-  depends_on = [null_resource.previous]
-
-  create_duration = "10s"
-}
-
-resource "kubernetes_storage_class_v1" "gp3-default" {
-  metadata {
-    name = "auto-ebs-sc"
-    annotations = {
-      "storageclass.kubernetes.io/is-default-class" = "true"
-    } 
-  }
-  storage_provisioner = "ebs.csi.eks.amazonaws.com"
-  reclaim_policy      = "Delete"
-  parameters = {
-    type = "gp3"
-    fsType = "ext4"
-    encrypted = "true"
-  }
-  volume_binding_mode = "WaitForFirstConsumer"
-  depends_on = [ time_sleep.wait_10_seconds ]
-}

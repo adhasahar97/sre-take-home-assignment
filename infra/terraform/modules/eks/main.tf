@@ -169,3 +169,27 @@ resource "aws_eks_access_policy_association" "sso-user-admin" {
     type = "cluster"
   }
 }
+
+resource "time_sleep" "wait_20_seconds" {
+  depends_on = [aws_eks_access_entry.current-user-admin]
+
+  create_duration = "20s"
+}
+
+resource "kubernetes_storage_class_v1" "gp3-default" {
+  metadata {
+    name = "auto-ebs-sc"
+    annotations = {
+      "storageclass.kubernetes.io/is-default-class" = "true"
+    } 
+  }
+  storage_provisioner = "ebs.csi.eks.amazonaws.com"
+  reclaim_policy      = "Delete"
+  parameters = {
+    type = "gp3"
+    fsType = "ext4"
+    encrypted = "true"
+  }
+  volume_binding_mode = "WaitForFirstConsumer"
+  depends_on = [ time_sleep.wait_20_seconds ]
+}
