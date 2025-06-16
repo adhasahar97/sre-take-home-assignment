@@ -54,6 +54,7 @@ resource "helm_release" "loki" {
     })
   ]
   create_namespace = true
+  depends_on = [ kubernetes_storage_class_v1.gp3-default ]
 }
 
 resource "helm_release" "alloy" {
@@ -68,19 +69,19 @@ resource "helm_release" "alloy" {
   ]
   create_namespace = true
 }
-resource "helm_release" "tempo" {
-  name       = "tempo"
-  repository = "https://grafana.github.io/helm-charts"
-  chart      = "tempo-distributed"
-  namespace  = "observability"
-  version    = "1.42.0"
-  values     = [
-    templatefile("${path.module}/values/values-tempo.yaml", {
-    })
-  ]
-  create_namespace = true
-  timeout = 600
-}
+# resource "helm_release" "tempo" {
+#   name       = "tempo"
+#   repository = "https://grafana.github.io/helm-charts"
+#   chart      = "tempo-distributed"
+#   namespace  = "observability"
+#   version    = "1.42.0"
+#   values     = [
+#     templatefile("${path.module}/values/values-tempo.yaml", {
+#     })
+#   ]
+#   create_namespace = true
+#   timeout = 600
+# }
 
 resource "helm_release" "argocd" {
   name       = "argocd"
@@ -128,18 +129,29 @@ resource "helm_release" "argocd" {
 
 #   depends_on = [ helm_release.cloudflare-tunnel, helm_release.ingress-nginx]
 # }
-resource "kubernetes_storage_class_v1" "gp2-default" {
+
+resource "null_resource" "previous" {}
+
+resource "time_sleep" "wait_10_seconds" {
+  depends_on = [null_resource.previous]
+
+  create_duration = "10s"
+}
+
+resource "kubernetes_storage_class_v1" "gp3-default" {
   metadata {
-    name = "gp2-default"
+    name = "auto-ebs-sc"
     annotations = {
       "storageclass.kubernetes.io/is-default-class" = "true"
     } 
   }
-  storage_provisioner = "kubernetes.io/aws-ebs"
+  storage_provisioner = "ebs.csi.eks.amazonaws.com"
   reclaim_policy      = "Delete"
   parameters = {
-    type = "gp2"
+    type = "gp3"
     fsType = "ext4"
+    encrypted = "true"
   }
   volume_binding_mode = "WaitForFirstConsumer"
+  depends_on = [ time_sleep.wait_10_seconds ]
 }
