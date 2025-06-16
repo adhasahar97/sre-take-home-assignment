@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: feedme.adhshr.xyz
+  - host: feedme.sre.adhshr.xyz
     http:
       paths:
       - path: /

@@ -8,7 +8,7 @@ resources:
 - service-fe.yaml
 - service-be.yaml
 - service-mongodb.yaml
-- ingress-fe.yaml
+# - ingress-fe.yaml
 - servicemonitor.yaml
 # - ingress-be.yaml
 
