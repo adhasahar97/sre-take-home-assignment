@@ -81,6 +81,7 @@ resource "helm_release" "tempo" {
     })
   ]
   create_namespace = true
+  timeout = 600
 }
 
 resource "helm_release" "argocd" {
