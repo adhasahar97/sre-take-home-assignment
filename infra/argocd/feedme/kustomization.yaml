@@ -8,7 +8,7 @@ resources:
 - service-fe.yaml
 - service-be.yaml
 - service-mongodb.yaml
-# - ingress.yaml
+- ingress.yaml
 - servicemonitor.yaml
 images:
 - name: adhasahar/feedme-sre-frontend
