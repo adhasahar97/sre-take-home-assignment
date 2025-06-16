@@ -1,52 +1,125 @@
-## FeedMe SRE Engineer Take-Home Assignment
-Below is a take-home assignment before the interview for the position. You are required to
-1. Understand the situation and use case. You may contact the interviewer for further clarification.
-2. Develop and run your deployment plan for Environment, FE, BE using your most efficient tools.
-3. Monitor the deployments, simulate some usage on frontend, document and analyze the result.
-4. Bring your deployment and result to the next interview session.
+# Feedme SRE Take Home Assignment
 
-### Situation
-McDonald is transforming their business during COVID-19. They wanted to build an online order system to tackle with current challenge. As one of the devops engineer in the project, your task is to deploy the prototype that completed by the development team and make it available to the internet for McDonald.
+## Tech Stack
 
-Below is the information given by the development team
+- EKS cluster for container orchestration
+- AWS Network Loadbalancer for secure external access
+- Terraform for infrastructure provisioning and management
+- ArgoCD for GitOps-based continuous delivery
+- GitHub Actions for building docker images and running automations
+- Cloudflare for DNS management
 
-### Global environment requirement
-- start a mongodb instance, reachable for backend
+## Deployment Diagram
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │
+│  User           │────▶│  AWS ELB        │────▶│  Kubernetes     │ ◄───
+│  Network Route  │     │  Load Balancer  │     │  Cluster        │     │
+└─────────────────┘     └─────────────────┘     └─────────────────┘     │
+                                                         │              │
+                                                         ▼              │
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     │
+│                 │     │                 │     │                 │     │
+│  GitHub Repo    │────▶│  ArgoCD         │────▶│  Applications   │     │
+│  App Deployment │     │  GitOps         │     │  & Services     │     │
+└─────────────────┘     └─────────────────┘     └─────────────────┘     │
+                                                                        │
+                                                                        │
+┌─────────────────┐              ┌─────────────────┐                    │
+│                 │              │                 │                    │
+│  GitHub Actions │─────────────▶│  Terraform      │────────────────────
+│  Infrastructure │              │  GitOps         │ 
+|  Provisioning   |              |                 |
+└─────────────────┘              └─────────────────┘     
 
-### Starting the backend
-- required nodejs 14
-- set environment variable `MONGODB_URL="<mongodb connection url>"`, where `<mongodb connection url>` must match the [official mongodb node driver uri](https://docs.mongodb.com/drivers/node/current/fundamentals/connection/#connection-uri)
-- navigate to backend directory `cd backend`
-- build using npm `npm install`
-- start using node `node index.js`
+```
 
-### Starting the frontend
-- navigate to frontend directory `cd frontend`
-- modify the variable `backendUrl` to the actual backend endpoint
-- serve the http server root from `frontend/`
+## Pre-requisites
+Before setting up this project, ensure you have the following:
 
-### Free Resource
-You may use the following free resource for the deployment
-- https://www.mongodb.com/
-- https://www.netlify.com/
-- https://vercel.com/
+- AWS Account.
+- IAM User or Role with AdmininstratorAccess policy.
+- AWS S3 bucket for storing Terraform statefile. [Configuring Terraform backend to use S3 Bucket](https://developer.hashicorp.com/terraform/language/backend/s3)
 
-### Mandatory Requirements
-Your deployment must meet the following criteria:
-- A working FE which reachable through internet
-- Monitoring and recovery for different resource
-- Documentation for the deployment plan
+For this Feedme SRE Assessment, OIDC is used for granting GitHub Actions access to AWS API.
+Below is the IAM Role trust relationship when setting up this OIDC
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::955059924186:oidc-provider/token.actions.githubusercontent.com"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                },
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": "repo:adhasahar97/sre-take-home-assignment:*"
+                }
+            }
+        }
+    ]
+}
+```
 
-### Evaluation Criterias
+This Github Actions step is used to auth against OIDC
+```yaml
+ - name: Configure AWS Credentials
+   uses: aws-actions/configure-aws-credentials@v4.1.0
+   with:
+      aws-region: ap-southeast-1
+      role-to-assume: arn:aws:iam::955059924186:role/terraform-admin-role
+      role-session-name: terraform-session
+```
 
-You will be evaluated based a few criterias. The first one is the completion of the **Mandatory Requirements**.
+## Provisioning the infrastructure for hosting the project
+The infrastructure will be deployed declaratively using Terraform for reproducibility. The project files are located in `infra/terraform`. For this specific deployment, the entrypoint for the Terraform script is in `infra/terraform/aws`.
 
-Other than that, please also draft a plan for the following circumstances (this part doesn't need to be implemented, just a draft plan is enough):
-- on-demand scaling of the resources
-- keeping the application secure and resilient against cyberattacks
-- recommended SLOs and SLIs for the service
+Stack that will be deployed by the Terraform Script:
+1. AWS Services
+   - VPC, Subnet
+   - EKS in Auto Mode
+   - Role/User assignment to EKS
+2. Softwares
+   - ArgoCD - for deploying the application in EKS
+   - Ingress-Nginx - for serving/exposing the application to the internet
+   - Grafana,Prometheus,Loki,Alloy - for monitoring
 
-### Tips on completing this assignment
-- Use the best tools you have on hand.
-- Try to scope your working hour within 3 hours (1 hour per day if you really busy) and avoid unnecessary optimization and documentation.
-- Communicate effectively like you are going to communicate with the actual team member.
+Run [Terraform AWS workflow](https://github.com/adhasahar97/sre-take-home-assignment/blob/main/.github/workflows/terraform-aws.yaml) to start provisioning the infrastructre. The Terrafrm codes are located in `infra/terraform` folder. 
+The workflow also will be automatically triggered when there is a new commit in `infra/terraform` directories in a `main` branch.
+
+## Updating and building the code
+A GitHub Actions workflow called [Build and Push Docker Images](https://github.com/adhasahar97/sre-take-home-assignment/blob/main/.github/workflows/docker-build.yml) is used to build the Docker images for the frontend and backend.
+The workflow is triggered when a tag is created like "v1.0.4". It must follow semantic versioning format. The Docker images will be published here:
+- [Feedme frontend Docker image](https://hub.docker.com/repository/docker/adhasahar/feedme-sre-frontend/general)
+- [Feedme backend Docker image](https://hub.docker.com/repository/docker/adhasahar/feedme-sre-backend/general)
+
+## Upgrading deployment version in Kubernetes
+Kustomize is being used as a templating engine for the application to streaming line the deployment process.
+
+The `frontend` and `backend` can be upgraded by chaging the tag version in [`infra/argocd/feedme/kustomization`](https://github.com/adhasahar97/sre-take-home-assignment/blob/main/infra/argocd/feedme/kustomization.yaml):
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- deployment-fe.yaml
+- deployment-be.yaml
+- deployment-mongodb.yaml
+- service-fe.yaml
+- service-be.yaml
+- service-mongodb.yaml
+- ingress.yaml
+- servicemonitor.yaml
+images:
+- name: adhasahar/feedme-sre-frontend
+  newTag: 1.0.7 ## <--------- Change this value
+- name: adhasahar/feedme-sre-backend
+  newTag: 1.0.7 ## <--------- Change this value
+```
+
+Once changed, do push the changes to GitHub and ArgoCD will automatically picked up the changes.
