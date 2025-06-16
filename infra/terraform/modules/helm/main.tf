@@ -16,18 +16,18 @@
 #   create_namespace = true
 # }
 
-# resource "helm_release" "ingress-nginx" {
-#   name       = "ingress-nginx"
-#   repository = "https://kubernetes.github.io/ingress-nginx"
-#   chart      = "ingress-nginx"
-#   namespace  = "ingress-nginx"
-#   version    = "4.12.3"
-#   values     = [
-#     templatefile("${path.module}/values/values-ingress-nginx.yaml", {
-#     })
-#   ]
-#   create_namespace = true
-# }
+resource "helm_release" "ingress-nginx" {
+  name       = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  namespace  = "ingress-nginx"
+  version    = "4.12.3"
+  values     = [
+    templatefile("${path.module}/values/values-ingress-nginx.yaml", {
+    })
+  ]
+  create_namespace = true
+}
 
 resource "helm_release" "kube-prometheus-stack" {
   name       = "kube-prometheus-stack"
