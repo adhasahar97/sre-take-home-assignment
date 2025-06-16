@@ -54,7 +54,6 @@ resource "helm_release" "loki" {
     })
   ]
   create_namespace = true
-  depends_on = [ kubernetes_storage_class_v1.gp3-default ]
 }
 
 resource "helm_release" "alloy" {
