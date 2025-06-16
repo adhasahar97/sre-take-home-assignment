@@ -101,48 +101,6 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSNetworkingPolicy" {
   role       = aws_iam_role.cluster.name
 }
 
-## Node Group IAM Role and Policies
-# This IAM Role is used by the EKS Node Group to allow EC2 instances to
-# communicate with the EKS Cluster and perform necessary operations.
-# The policies attached to this role provide the necessary permissions
-# for the worker nodes to function properly within the EKS environment.
-
-# resource "aws_eks_node_group" "nodegroup" {
-#   cluster_name    = aws_eks_cluster.feedme-sre.name
-#   node_group_name = "nodegroup"
-#   node_role_arn   = aws_iam_role.nodegroup.arn
-#   subnet_ids      = [
-#       var.subnet_a_id,
-#       var.subnet_b_id
-#   ]
-#   instance_types = [
-#     "r6g.xlarge",
-#     "r7g.xlarge",
-#     "m6g.2xlarge",
-#     "m7g.2xlarge",
-#   ]
-#   ami_type = "BOTTLEROCKET_ARM_64"
-#   capacity_type = "SPOT"
-
-#   scaling_config {
-#     desired_size = 1
-#     max_size     = 2
-#     min_size     = 1
-#   }
-
-#   update_config {
-#     max_unavailable = 1
-#   }
-
-#   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
-#   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
-#   depends_on = [
-#     aws_iam_role_policy_attachment.nodegroup-AmazonEKSWorkerNodePolicy,
-#     aws_iam_role_policy_attachment.nodegroup-AmazonEKS_CNI_Policy,
-#     aws_iam_role_policy_attachment.nodegroup-AmazonEC2ContainerRegistryReadOnly,
-#   ]
-# }
-
 resource "aws_iam_role" "nodegroup" {
   name = "eks-node-group"
 

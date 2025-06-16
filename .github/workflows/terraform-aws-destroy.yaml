@@ -38,9 +38,6 @@ jobs:
       working-directory: ./infra/terraform/aws
       run: terraform init
 
-    # - name: Terraform Plan
-    #   working-directory: ./infra/terraform/aws
-    #   run: terraform plan
     - name: Terraform Destroy Helm module
       continue-on-error: true
       working-directory: ./infra/terraform/aws
@@ -51,15 +48,10 @@ jobs:
       working-directory: ./infra/terraform/aws
       run: terraform state rm 'module.helm'
 
-    - name: Terraform Destroy Helm module
+    - name: Terraform Destroy EKS module
       if: github.event_name != 'pull_request'
       working-directory: ./infra/terraform/aws
       run: terraform destroy --target module.eks -auto-approve
-
-    - name: Terraform delete helm module state
-      continue-on-error: true
-      working-directory: ./infra/terraform/aws
-      run: terraform state rm 'module.helm'
         
     - name: Terraform Destroy
       if: github.event_name != 'pull_request'
