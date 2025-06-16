@@ -10,6 +10,7 @@ resource "aws_subnet" "subnet_a" {
 
   tags = {
     Name = "subnet_a"
+    "kubernetes.io/role/elb" = "1"
   }
   map_public_ip_on_launch = true
 }
@@ -21,6 +22,7 @@ resource "aws_subnet" "subnet_b" {
 
   tags = {
     Name = "subnet_b"
+    "kubernetes.io/role/elb" = "1"
   }
   map_public_ip_on_launch = true
 }
