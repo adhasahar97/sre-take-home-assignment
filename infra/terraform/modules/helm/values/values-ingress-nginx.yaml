@@ -1,5 +1,5 @@
 controller:
   service:
-    type: ClusterIP
+    type: LoadBalancer
   admissionWebhooks:
     enabled: false
