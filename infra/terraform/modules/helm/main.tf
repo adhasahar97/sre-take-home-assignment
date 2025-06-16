@@ -27,7 +27,6 @@ resource "helm_release" "ingress-nginx" {
     })
   ]
   create_namespace = true
-  depends_on = [ helm_release.cloudflare-tunnel ]
 }
 
 resource "helm_release" "kube-prometheus-stack" {
@@ -42,7 +41,6 @@ resource "helm_release" "kube-prometheus-stack" {
     })
   ]
   create_namespace = true
-  depends_on = [ kubernetes_ingress_v1.cf-to-nginx ]
 }
 
 resource "helm_release" "loki" {
@@ -97,7 +95,6 @@ resource "helm_release" "argocd" {
     })
   ]
   create_namespace = true
-  depends_on = [ kubernetes_ingress_v1.cf-to-nginx ]
 }
 
 # resource "kubernetes_ingress_v1" "cf-to-nginx" {
