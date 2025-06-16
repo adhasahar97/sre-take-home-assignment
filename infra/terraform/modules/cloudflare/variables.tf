@@ -8,3 +8,8 @@ variable "cloudflare_account_id" {
     type        = string
     default     = ""
 }
+
+variable "aws_lb" {
+    description = "The AWS Load Balancer"
+    type        = string
+}
