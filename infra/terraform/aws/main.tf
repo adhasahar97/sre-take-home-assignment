@@ -38,7 +38,6 @@ module "eks" {
   source = "../modules/eks"
   subnet_a_id = module.vpc.subnet_a_id
   subnet_b_id = module.vpc.subnet_b_id
-  nginx_ingress_helm_status = module.helm.nginx_ingress_helm_status
 }
 
 module "helm" {
