@@ -13,7 +13,7 @@ resource "aws_eks_cluster" "feedme-sre" {
   compute_config {
     enabled       = true
     node_pools    = ["general-purpose"]
-    node_role_arn = aws_iam_role.node.arn
+    node_role_arn = aws_iam_role.nodegroup.arn
   }
 
   kubernetes_network_config {
