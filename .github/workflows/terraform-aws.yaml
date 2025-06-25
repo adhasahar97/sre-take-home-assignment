@@ -18,7 +18,7 @@ permissions:
 jobs:
   terraform:
     environment: homelab
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     env:
       AWS_DEFAULT_REGION: ap-southeast-5 # For Terraform AWS provider
       TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} # For Cloudflare Ingress Controller helm release
